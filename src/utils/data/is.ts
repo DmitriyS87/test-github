@@ -1,5 +1,5 @@
-export function dataIsObject(value: any): value is object {
+export function dataIsObject<T>(value: T): boolean {
   return (
-    typeof value === "object" && value !== null && !(value instanceof FormData)
+    typeof value === 'object' && value !== null && !(value instanceof FormData)
   );
 }

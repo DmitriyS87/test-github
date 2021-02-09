@@ -1,5 +1,5 @@
-import { BASE_API_URL } from ".";
-import { apiRequest } from "../utils";
+import { apiRequest } from '../utils';
+import { BASE_API_URL, IApiUserRepository } from '.';
 
 export interface IApiUser {
   avatar_url: string;
@@ -36,29 +36,43 @@ export interface IApiUser {
   url: string;
 }
 
-export class ApiUsers {
+export class ApiUser {
   /**
-   * Used to get account repository data by name
+   * Used to get accounts list
    */
 
-  public static list = async (): Promise<any> => {
-    return await apiRequest<IApiUser[]>({
+  public static list = async (): Promise<any> =>
+    await apiRequest<IApiUser[]>({
       endpoint: `${BASE_API_URL}/users`,
-      method: "GET",
+      method: 'GET',
     });
-  };
   /**
-   * Used to get account repository data by name
+   * Used to get account repositories data by name
+   */
+
+  public static repositoriesList = async ({
+    login,
+  }: {
+    login: IApiUser['login'];
+  }): Promise<IApiUserRepository[]> =>
+    await apiRequest<IApiUserRepository[]>({
+      endpoint: `${BASE_API_URL}/users/${login}/repos`,
+      method: 'GET',
+    });
+
+  /**
+   * Used to get account repository data by name or login
    */
 
   public static retrieve = async ({
     login,
+    name,
   }: {
-    login: IApiUser["login"];
-  }): Promise<any> => {
-    return await apiRequest<IApiUser>({
-      endpoint: `${BASE_API_URL}/users/${login}`,
-      method: "GET",
+    login?: IApiUser['login'];
+    name?: IApiUser['name'];
+  }): Promise<IApiUser> =>
+    await apiRequest<IApiUser>({
+      endpoint: `${BASE_API_URL}/users/${name ? name : login ? login : ''}`,
+      method: 'GET',
     });
-  };
 }

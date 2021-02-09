@@ -1,16 +1,15 @@
-import React, { FC, Suspense } from "react";
-import { createBrowserHistory } from "history";
-import { render } from "react-dom";
-import { Route, Router, Switch } from "react-router-dom";
-import { App } from "./modules/app";
-import { ContextProviderApp } from "./modules/app/context/app";
+import { createBrowserHistory } from 'history';
+import React, { FC, Suspense } from 'react';
+import { render } from 'react-dom';
+import { Route, Router, Switch } from 'react-router-dom';
 
-const entry = document.querySelector(".app");
+import { App } from './modules/app';
+import { ContextProviderApp } from './modules/app/context/app';
+
+const entry = document.querySelector('.app');
 const history = createBrowserHistory();
 
-const ModuleLoader: FC = () => {
-  return <div>Loading</div>;
-};
+const ModuleLoader: FC = () => <div>Loading</div>;
 
 const Root: FC = () => (
   <ContextProviderApp>
