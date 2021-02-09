@@ -1,0 +1,8 @@
+{
+  "name": "access_to_github",
+  "version": "1.0.0",
+  "description": "test task based on Github API",
+  "main": "index.js",
+  "author": "Dmitriy Schukin <schukindmitriy@gmail.com>",
+  "license": "MIT"
+}
