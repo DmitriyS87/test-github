@@ -44,7 +44,7 @@ export class ApiUser {
    * Used to get accounts list
    */
 
-  public static list = async (): Promise<any> =>
+  public static list = async (): Promise<IApiUser[]> =>
     await apiRequest<IApiUser[]>({
       endpoint: `${BASE_API_URL}/users`,
       method: 'GET',

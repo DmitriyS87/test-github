@@ -9,8 +9,32 @@
         "allowJs": true,
         "allowSyntheticDefaultImports": true,
         "moduleResolution": "node",
-        "forceConsistentCasingInFileNames": true
+        "forceConsistentCasingInFileNames": true,
+        "baseUrl": "./",
+        "paths": {
+            "@api": [
+                "src/api"
+            ],
+            "@assets": [
+                "src/assets"
+            ],
+            "@modules": [
+                "src/modules"
+            ],
+            "@pages": [
+                "src/pages"
+            ],
+            "@ui": [
+                "src/ui"
+            ],
+            "@utils": [
+                "src/utils"
+            ],
+        }
     },
+    "include": [
+        "src/**/*"
+    ],
     "exclude": [
         "node_modules",
         "dist"

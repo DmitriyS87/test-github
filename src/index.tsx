@@ -1,23 +1,23 @@
 import { createBrowserHistory } from 'history';
-import React, { FC, Suspense } from 'react';
+import { SnackbarProvider } from 'notistack';
+import React, { FC } from 'react';
 import { render } from 'react-dom';
-import { Route, Router, Switch } from 'react-router-dom';
+import { Router } from 'react-router-dom';
 
 import { App } from './modules/app';
 import { ContextProviderApp } from './modules/app/context/app';
-import { ModuleLoader } from './ui';
 
 const entry = document.querySelector('.app');
 const history = createBrowserHistory();
 
 const Root: FC = () => (
-  <ContextProviderApp>
-    <Router history={history}>
-      <Suspense fallback={<ModuleLoader />}>
+  <SnackbarProvider>
+    <ContextProviderApp>
+      <Router history={history}>
         <App />
-      </Suspense>
-    </Router>
-  </ContextProviderApp>
+      </Router>
+    </ContextProviderApp>
+  </SnackbarProvider>
 );
 
 render(<Root />, entry);

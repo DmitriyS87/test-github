@@ -1,3 +1,11 @@
+import {
+  ApiRepository,
+  ApiUser,
+  IApiRepositiryIssueComment,
+  IApiRepositoryIssue,
+  IApiUser,
+  IApiUserRepository,
+} from '@api';
 import React, {
   createContext,
   FC,
@@ -7,28 +15,23 @@ import React, {
   useState,
 } from 'react';
 
-import {
-  ApiRepository,
-  ApiUser,
-  IApiRepositiryIssueComment,
-  IApiRepositoryIssue,
-  IApiUser,
-  IApiUserRepository,
-} from '../../../api';
-
 interface IContextApp {
   actions: {
     accountDataGet: typeof ApiUser.retrieve;
     accountRepositoriesGet: typeof ApiUser.repositoriesList;
+    clearRepositoryIssueCommentsData: () => void;
+    clearRepositoryIssues: () => void;
+    clearSelectedRepositoryData: () => void;
     issueByNumberGet: (
       name: IApiRepositoryIssue['number'],
     ) => Promise<IApiRepositoryIssue>;
     issueCommentsByNumberGet: (
       name: IApiRepositoryIssue['number'],
-    ) => Promise<any>;
+    ) => Promise<IApiRepositiryIssueComment[]>;
     repositoryIssueCommentsByNumberGet: typeof ApiRepository.issueCommentsList;
     repositoryIssueByNumberGet: typeof ApiRepository.issue;
     repositoryIssuesGet: typeof ApiRepository.issuesList;
+    resetAllpreviouseUserData: () => void;
     setSelectedRepository: React.Dispatch<IApiUserRepository>;
   };
   state: {
@@ -146,6 +149,30 @@ export const ContextProviderApp: FC = ({ children }) => {
     [],
   );
 
+  const clearSelectedRepositoryData: IContextApp['actions']['clearSelectedRepositoryData'] = useCallback(() => {
+    setAccountRepositories(null);
+  }, []);
+
+  const clearRepositoryIssueCommentsData: IContextApp['actions']['clearRepositoryIssueCommentsData'] = useCallback(() => {
+    setSelectedRepositoryIssueComments(null);
+  }, []);
+
+  const clearRepositoryIssues: IContextApp['actions']['clearRepositoryIssues'] = useCallback(() => {
+    setSelectedRepositoryIssues(null);
+  }, []);
+
+  const resetAllpreviouseUserData: IContextApp['actions']['resetAllpreviouseUserData'] = useCallback(() => {
+    setSelectedRepository(null);
+    clearRepositoryIssueCommentsData();
+    clearRepositoryIssues();
+    clearSelectedRepositoryData();
+    setAccount(null);
+  }, [
+    clearRepositoryIssueCommentsData,
+    clearRepositoryIssues,
+    clearSelectedRepositoryData,
+  ]);
+
   return useMemo(
     () => (
       <ContextApp.Provider
@@ -153,11 +180,15 @@ export const ContextProviderApp: FC = ({ children }) => {
           actions: {
             accountDataGet,
             accountRepositoriesGet,
+            clearRepositoryIssueCommentsData,
+            clearRepositoryIssues,
+            clearSelectedRepositoryData,
             issueByNumberGet,
             issueCommentsByNumberGet,
             repositoryIssueByNumberGet,
             repositoryIssueCommentsByNumberGet,
             repositoryIssuesGet,
+            resetAllpreviouseUserData,
             setSelectedRepository,
           },
           state: {
@@ -173,19 +204,23 @@ export const ContextProviderApp: FC = ({ children }) => {
       </ContextApp.Provider>
     ),
     [
-      account,
       accountDataGet,
-      accountRepositories,
       accountRepositoriesGet,
-      children,
+      clearRepositoryIssueCommentsData,
+      clearRepositoryIssues,
+      clearSelectedRepositoryData,
       issueByNumberGet,
       issueCommentsByNumberGet,
       repositoryIssueByNumberGet,
       repositoryIssueCommentsByNumberGet,
       repositoryIssuesGet,
+      resetAllpreviouseUserData,
+      account,
+      accountRepositories,
       selectedRepository,
-      selectedRepositoryIssues,
       selectedRepositoryIssueComments,
+      selectedRepositoryIssues,
+      children,
     ],
   );
 };

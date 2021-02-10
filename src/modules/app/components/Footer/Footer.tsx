@@ -1,6 +1,6 @@
+import { Link, Wrapper } from '@ui';
 import React, { FC } from 'react';
 
-import { Link, Wrapper } from '../../../../ui/styled';
 import { AppFooter } from './Footer.style';
 
 export const Footer: FC = () => (

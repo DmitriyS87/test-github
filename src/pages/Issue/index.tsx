@@ -1,6 +1,5 @@
+import { ModuleLoader } from '@ui';
 import React, { FC, lazy, Suspense } from 'react';
-
-import { ModuleLoader } from '../../ui';
 
 const IssueModule = lazy(
   () => import(/* webpackChunkName: "Issue" */ './module'),

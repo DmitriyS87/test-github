@@ -1,9 +1,8 @@
-import makeStyles from '@material-ui/core/styles/makeStyles';
+import { Issue, Main, PageNotFound } from '@pages';
+import { Wrapper } from '@ui/styled';
 import React, { FC } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
-import { Issue, Main, PageNotFound } from '../../../../pages';
-import { Wrapper } from '../../../../ui/styled';
 import { AppMain } from './Viewer.style';
 
 export const Viewer: FC = () => (

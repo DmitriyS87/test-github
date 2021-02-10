@@ -1,11 +1,11 @@
+import { IApiRepositoryIssue } from '@api';
+import { useContextApp } from '@modules/app/context/app';
+import { ModuleLoader, User } from '@ui';
+import { Box } from '@ui/styled';
 import { useSnackbar } from 'notistack';
 import React, { FC, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { IApiRepositoryIssue } from '../../../../api';
-import { useContextApp } from '../../../../modules/app/context/app';
-import { ModuleLoader, User } from '../../../../ui';
-import { Box } from '../../../../ui/styled';
 import { Comments } from './components';
 import {
   Issue,
@@ -13,7 +13,6 @@ import {
   IssueTitle,
   IssueTitleMeta,
 } from './issueDetails.style';
-import { issueMock } from './mock';
 
 export const IssueDetails: FC = () => {
   const {
@@ -22,9 +21,7 @@ export const IssueDetails: FC = () => {
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const [issue, setIssue] = useState<IApiRepositoryIssue | undefined>(
-    issueMock,
-  );
+  const [issue, setIssue] = useState<IApiRepositoryIssue | undefined>();
 
   const params = useParams<{
     number?: string;
@@ -61,7 +58,7 @@ export const IssueDetails: FC = () => {
             <IssueTitle>
               #{issue.number} - {issue.title}
             </IssueTitle>
-            <IssueTitleMeta>
+            <IssueTitleMeta alignItems="center" display="flex" margin="1rem 0">
               {' '}
               {issue.created_at} created by{' '}
               <User

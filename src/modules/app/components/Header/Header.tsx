@@ -1,6 +1,6 @@
+import { Wrapper } from '@ui/styled';
 import React, { FC } from 'react';
 
-import { Wrapper } from '../../../../ui/styled';
 import { AppDescription, AppHeader, AppTitle } from './Header.style';
 
 export const Header: FC = () => (

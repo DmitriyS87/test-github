@@ -1,11 +1,10 @@
+import { IApiUserRepository } from '@api';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import React, { FC } from 'react';
-
-import { IApiUserRepository } from '../../../../api';
 
 interface IProps {
   isLoading?: boolean;
@@ -17,6 +16,11 @@ const useStyles = makeStyles<Theme>(({ palette }) => ({
   container: {
     width: '14rem',
   },
+  list: {
+    maxHeight: '60vh',
+    overflow: 'hidden',
+    overflowY: 'auto',
+  },
 }));
 
 export const UserRepositoriesList: FC<IProps> = ({
@@ -27,7 +31,11 @@ export const UserRepositoriesList: FC<IProps> = ({
   const classes = useStyles();
   return (
     <Paper className={classes.container}>
-      <List component="nav" aria-label="main mailbox folders">
+      <List
+        className={classes.list}
+        component="nav"
+        aria-label="main mailbox folders"
+      >
         {repos.map((repo) => (
           <ListItem
             button
