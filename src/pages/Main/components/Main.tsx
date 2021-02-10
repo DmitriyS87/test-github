@@ -73,7 +73,9 @@ export const Main: FC = () => {
           );
         await accountDataGet({ name: user });
       } catch (err) {
-        console.error(err);
+        enqueueSnackbar(err && err.message ? err.message : err, {
+          variant: 'error',
+        });
       }
     },
     [accountDataGet],
@@ -104,7 +106,9 @@ export const Main: FC = () => {
       setIsIssuesSubmitting(false);
       handleRepositoryListClose();
     } catch (err) {
-      console.error(err);
+      enqueueSnackbar(err && err.message ? err.message : err, {
+        variant: 'error',
+      });
     }
   };
 

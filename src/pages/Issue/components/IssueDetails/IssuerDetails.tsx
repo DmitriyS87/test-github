@@ -1,3 +1,4 @@
+import { useSnackbar } from 'notistack';
 import React, { FC, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -18,6 +19,8 @@ export const IssueDetails: FC = () => {
   const {
     actions: { issueByNumberGet },
   } = useContextApp();
+
+  const { enqueueSnackbar } = useSnackbar();
 
   const [issue, setIssue] = useState<IApiRepositoryIssue | undefined>(
     issueMock,
@@ -42,11 +45,13 @@ export const IssueDetails: FC = () => {
           const issueData = await issueByNumberGet(issueNumber);
           setIssue(issueData);
         } catch (err) {
-          console.error(err);
+          enqueueSnackbar(err && err.message ? err.message : err, {
+            variant: 'error',
+          });
         }
       })();
     }
-  }, [issueByNumberGet, issueNumber]);
+  }, [enqueueSnackbar, issueByNumberGet, issueNumber]);
 
   return (
     <>
