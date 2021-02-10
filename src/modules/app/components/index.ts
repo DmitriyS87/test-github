@@ -1,2 +1,3 @@
-export * from './RepositoryIssue';
-export * from './UserRepositoriesList';
+export * from './Footer';
+export * from './Header';
+export * from './Viewer';

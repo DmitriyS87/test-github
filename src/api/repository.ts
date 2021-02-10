@@ -1,6 +1,20 @@
 import { apiRequest } from '../utils';
 import { BASE_API_URL, IApiUserSharedData } from '.';
 
+export interface IApiRepositiryIssueComment {
+  author_association: string; // 'MEMBER'
+  body: string;
+  created_at: string;
+  html_url: string;
+  id: number;
+  issue_url: string;
+  node_id: string;
+  performed_via_github_app: null | string; //??
+  updated_at: string;
+  url: string;
+  user: IApiUserSharedData;
+}
+
 export interface IApiRepositoryIssue {
   active_lock_reason: null | string;
   assignee: null | string;
@@ -21,6 +35,12 @@ export interface IApiRepositoryIssue {
   node_id: string;
   number: number;
   performed_via_github_app: null | string; //??
+  pull_request?: {
+    url: string;
+    html_url: string;
+    diff_url: string;
+    patch_url: string;
+  };
   repository_url: string;
   state: string; // "open"
   title: string;
@@ -131,8 +151,12 @@ export class ApiRepository {
    * Used to get list of repository data by owner
    */
 
-  public static list = async ({ owner }: { owner?: any }): Promise<any> =>
-    await apiRequest<IApiRepository[]>({
+  public static list = async ({
+    owner,
+  }: {
+    owner?: IApiRepositoryOwner['login'];
+  }): Promise<IApiUserRepository[]> =>
+    await apiRequest<IApiUserRepository[]>({
       endpoint: `${BASE_API_URL}/repos/${owner ? owner + '/' : ''}`,
       method: 'GET',
     });
@@ -145,10 +169,10 @@ export class ApiRepository {
     owner,
     repo,
   }: {
-    owner: any;
-    repo: any;
-  }): Promise<any> =>
-    await apiRequest<IApiRepository>({
+    owner: IApiRepositoryOwner['login'];
+    repo: IApiUserRepository['name'];
+  }): Promise<IApiUserRepository> =>
+    await apiRequest<IApiUserRepository>({
       endpoint: `${BASE_API_URL}/repos/${owner ? owner + '/' : ''}${
         repo ? repo + '/' : ''
       }`,
@@ -163,10 +187,10 @@ export class ApiRepository {
     owner,
     repo,
   }: {
-    owner: any;
-    repo: any;
-  }): Promise<any> =>
-    await apiRequest<IApiRepository>({
+    owner: IApiRepositoryOwner['login'];
+    repo: IApiUserRepository['name'];
+  }): Promise<IApiRepositoryIssue[]> =>
+    await apiRequest<IApiRepositoryIssue[]>({
       endpoint: `${BASE_API_URL}/repos/${owner}/${repo}/issues`,
       method: 'GET',
     });
@@ -180,13 +204,31 @@ export class ApiRepository {
     repo,
     number,
   }: {
-    owner: any;
-    repo: any;
-    number: any;
-  }): Promise<any> =>
+    owner: IApiRepositoryOwner['login'];
+    repo: IApiUserRepository['name'];
+    number: IApiRepositoryIssue['number'];
+  }): Promise<IApiRepositoryIssue> =>
     await apiRequest<IApiRepositoryIssue>({
       endpoint: `${BASE_API_URL}/repos/${owner}/${repo}/issues/${number}
       }`,
+      method: 'GET',
+    });
+
+  /**
+   * Used to get repository issue Comments by owner, repo and issue number
+   */
+
+  public static issueCommentsList = async ({
+    owner,
+    repo,
+    number,
+  }: {
+    owner: IApiRepositoryOwner['login'];
+    repo: IApiUserRepository['name'];
+    number: IApiRepositoryIssue['number'];
+  }): Promise<IApiRepositiryIssueComment[]> =>
+    await apiRequest<IApiRepositiryIssueComment[]>({
+      endpoint: `${BASE_API_URL}/repos/${owner}/${repo}/issues/${number}/comments`,
       method: 'GET',
     });
 }

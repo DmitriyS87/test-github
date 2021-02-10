@@ -5,19 +5,16 @@ import { Route, Router, Switch } from 'react-router-dom';
 
 import { App } from './modules/app';
 import { ContextProviderApp } from './modules/app/context/app';
+import { ModuleLoader } from './ui';
 
 const entry = document.querySelector('.app');
 const history = createBrowserHistory();
-
-const ModuleLoader: FC = () => <div>Loading</div>;
 
 const Root: FC = () => (
   <ContextProviderApp>
     <Router history={history}>
       <Suspense fallback={<ModuleLoader />}>
-        <Switch>
-          <Route path="/" component={App} />
-        </Switch>
+        <App />
       </Suspense>
     </Router>
   </ContextProviderApp>

@@ -10,6 +10,7 @@ import React, {
 import {
   ApiRepository,
   ApiUser,
+  IApiRepositiryIssueComment,
   IApiRepositoryIssue,
   IApiUser,
   IApiUserRepository,
@@ -19,6 +20,14 @@ interface IContextApp {
   actions: {
     accountDataGet: typeof ApiUser.retrieve;
     accountRepositoriesGet: typeof ApiUser.repositoriesList;
+    issueByNumberGet: (
+      name: IApiRepositoryIssue['number'],
+    ) => Promise<IApiRepositoryIssue>;
+    issueCommentsByNumberGet: (
+      name: IApiRepositoryIssue['number'],
+    ) => Promise<any>;
+    repositoryIssueCommentsByNumberGet: typeof ApiRepository.issueCommentsList;
+    repositoryIssueByNumberGet: typeof ApiRepository.issue;
     repositoryIssuesGet: typeof ApiRepository.issuesList;
     setSelectedRepository: React.Dispatch<IApiUserRepository>;
   };
@@ -26,7 +35,8 @@ interface IContextApp {
     account: IApiUser | null;
     accountRepositories: IApiUserRepository[] | null;
     selectedRepository: IApiUserRepository | null;
-    selectedRepositoryIssues: IApiRepositoryIssue[];
+    selectedRepositoryIssues: IApiRepositoryIssue[] | null;
+    selectedRepositoryIssueComments: IApiRepositiryIssueComment[] | null;
   };
 }
 
@@ -40,9 +50,13 @@ export const ContextProviderApp: FC = ({ children }) => {
   const [selectedRepository, setSelectedRepository] = useState<
     IContextApp['state']['selectedRepository']
   >(null);
-  const [selectedRepositoryIssues, setSelectedRepositoryIssues] = useState(
-    null,
-  );
+  const [selectedRepositoryIssues, setSelectedRepositoryIssues] = useState<
+    IContextApp['state']['selectedRepositoryIssues']
+  >(null);
+  const [
+    selectedRepositoryIssueComments,
+    setSelectedRepositoryIssueComments,
+  ] = useState<IContextApp['state']['selectedRepositoryIssueComments']>(null);
 
   const accountDataGet: IContextApp['actions']['accountDataGet'] = useCallback(
     async (body) => {
@@ -62,9 +76,69 @@ export const ContextProviderApp: FC = ({ children }) => {
     [],
   );
 
+  const repositoryIssueByNumberGet: IContextApp['actions']['repositoryIssueByNumberGet'] = useCallback(
+    async (param) => await ApiRepository.issue(param),
+    [],
+  );
+
+  const repositoryIssueCommentsByNumberGet: IContextApp['actions']['repositoryIssueCommentsByNumberGet'] = useCallback(
+    async (param) => await ApiRepository.issueCommentsList(param),
+    [],
+  );
+
+  const issueByNumberGet: IContextApp['actions']['issueByNumberGet'] = useCallback(
+    async (issue_number) => {
+      const issueFromCurrentRepositoryIssuesList =
+        selectedRepositoryIssues &&
+        selectedRepositoryIssues.find((issue) => issue.number === issue_number);
+
+      if (issueFromCurrentRepositoryIssuesList) {
+        return Promise.resolve(issueFromCurrentRepositoryIssuesList);
+      }
+
+      if (
+        !selectedRepository ||
+        !selectedRepository.owner ||
+        !selectedRepository.name
+      ) {
+        throw new Error(
+          'The first you should set user and geat his repositories to get issue',
+        );
+      }
+
+      return await repositoryIssueByNumberGet({
+        number: issue_number,
+        owner: selectedRepository?.owner.login,
+        repo: selectedRepository?.name,
+      });
+    },
+    [repositoryIssueByNumberGet, selectedRepository, selectedRepositoryIssues],
+  );
+
+  const issueCommentsByNumberGet: IContextApp['actions']['issueCommentsByNumberGet'] = useCallback(
+    async (issue_number) => {
+      if (
+        !selectedRepository ||
+        !selectedRepository.owner ||
+        !selectedRepository.name
+      ) {
+        throw new Error(
+          'The first you should set user and geat his repositories to get issue',
+        );
+      }
+      const comments = await repositoryIssueCommentsByNumberGet({
+        number: issue_number,
+        owner: selectedRepository.owner.login,
+        repo: selectedRepository.name,
+      });
+      setSelectedRepositoryIssueComments(comments);
+      return comments;
+    },
+    [repositoryIssueCommentsByNumberGet, selectedRepository],
+  );
+
   const repositoryIssuesGet: IContextApp['actions']['repositoryIssuesGet'] = useCallback(
     async (param) => {
-      console.log({ param });
       const issues = await ApiRepository.issuesList(param);
       setSelectedRepositoryIssues(issues);
       return issues;
@@ -79,6 +153,10 @@ export const ContextProviderApp: FC = ({ children }) => {
           actions: {
             accountDataGet,
             accountRepositoriesGet,
+            issueByNumberGet,
+            issueCommentsByNumberGet,
+            repositoryIssueByNumberGet,
+            repositoryIssueCommentsByNumberGet,
             repositoryIssuesGet,
             setSelectedRepository,
           },
@@ -86,6 +164,7 @@ export const ContextProviderApp: FC = ({ children }) => {
             account,
             accountRepositories,
             selectedRepository,
+            selectedRepositoryIssueComments,
             selectedRepositoryIssues,
           },
         }}
@@ -99,9 +178,14 @@ export const ContextProviderApp: FC = ({ children }) => {
       accountRepositories,
       accountRepositoriesGet,
       children,
+      issueByNumberGet,
+      issueCommentsByNumberGet,
+      repositoryIssueByNumberGet,
+      repositoryIssueCommentsByNumberGet,
       repositoryIssuesGet,
       selectedRepository,
       selectedRepositoryIssues,
+      selectedRepositoryIssueComments,
     ],
   );
 };

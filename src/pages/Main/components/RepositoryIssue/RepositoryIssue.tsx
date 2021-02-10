@@ -1,12 +1,10 @@
-import Avatar from '@material-ui/core/Avatar';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
-import Link from '@material-ui/core/Link';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import React, { FC } from 'react';
 
 import { IApiRepositoryIssue } from '../../../../api';
+import { User } from '../../../../ui';
 
 interface IProps {
   issue: IApiRepositoryIssue;
@@ -41,18 +39,7 @@ export const RepositoryIssue: FC<IProps> = ({ issue }) => {
           <Box display="flex" alignItems="center">
             <Box>{`${number} - ${state} `}</Box>
             <Box>{`created at ${created_at}`}</Box>
-            <Link href={html_url} target="_blank" rel="noopener">
-              <Box display="flex" alignItems="center">
-                <Box>
-                  {avatar_url ? (
-                    <Avatar className={classes.avatarImg} src={avatar_url} />
-                  ) : (
-                    <AccountCircleIcon className={classes.avatarImg} />
-                  )}
-                </Box>
-                <Box>{login}</Box>
-              </Box>
-            </Link>
+            <User avtarUrl={avatar_url} login={login} accountUrl={html_url} />
           </Box>
         </Box>
       </Grid>

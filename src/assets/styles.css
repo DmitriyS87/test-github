@@ -3,13 +3,19 @@ html {
     font-size: 62.5%;
 }
 
-@media (min-width: 900px) {
+@media (min-width: 600px) {
     html {
         font-size: 12px;
     }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 960px) {
+    html {
+        font-size: 13px;
+    }
+}
+
+@media (min-width: 1280px) {
     html {
         font-size: 14px;
     }
@@ -26,10 +32,4 @@ body {
 .app {
     display: flex;
     flex-direction: column;
-    padding: 30px 20px;
-}
-
-.wrapper {
-    margin: 0 auto;
-    max-width: 100%;
 }
