@@ -14,7 +14,7 @@ interface IProps {
 
 const useStyles = makeStyles<Theme>(({ palette }) => ({
   container: {
-    width: '200px',
+    width: '14rem',
   },
 }));
 

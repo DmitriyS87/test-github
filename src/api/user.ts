@@ -1,39 +1,42 @@
 import { apiRequest } from '../utils';
 import { BASE_API_URL, IApiUserRepository } from '.';
 
-export interface IApiUser {
+export interface IApiUserSharedData {
   avatar_url: string;
+  events_url: string;
+  followers_url: string;
+  following_url: string;
+  gists_url: string;
+  gravatar_id: string;
+  html_url: string;
+  id: number;
+  login: string;
+  node_id: string;
+  organizations_url: string;
+  received_events_url: string;
+  repos_url: string;
+  site_admin: false;
+  starred_url: string;
+  subscriptions_url: string;
+  type: string; // "User"
+  url: string;
+}
+
+export interface IApiUser extends IApiUserSharedData {
   bio?: string;
   blog?: string;
   company?: null | string;
   created_at?: string;
   email?: null | string;
-  events_url: string;
   followers?: number;
-  followers_url: string;
   following?: number;
-  following_url: string;
-  gists_url: string;
-  gravatar_id: string;
   hireable?: null | string;
-  html_url: string;
-  id: number;
   location?: null | string;
-  login: string;
   name?: string;
-  node_id: string;
-  organizations_url: string;
   public_gists?: number;
   public_repos?: number;
-  received_events_url: string;
-  repos_url: string;
-  site_admin: boolean;
-  starred_url: string;
-  subscriptions_url: string;
   twitter_username?: null | string;
-  type: string;
   updated_at?: string;
-  url: string;
 }
 
 export class ApiUser {

@@ -1,5 +1,5 @@
 import { apiRequest } from '../utils';
-import { BASE_API_URL } from '.';
+import { BASE_API_URL, IApiUserSharedData } from '.';
 
 export interface IApiRepositoryIssue {
   active_lock_reason: null | string;
@@ -16,16 +16,17 @@ export interface IApiRepositoryIssue {
   id: number;
   labels: string[]; //??
   labels_url: string;
-  locked: false;
-  milestone: null;
+  locked: boolean;
+  milestone: null | string; //??
   node_id: string;
-  number: 859;
-  performed_via_github_app: null;
+  number: number;
+  performed_via_github_app: null | string; //??
   repository_url: string;
-  state: string;
+  state: string; // "open"
   title: string;
   updated_at: string;
   url: string;
+  user: IApiUserSharedData;
 }
 
 export interface IApiRepositoryOwner {

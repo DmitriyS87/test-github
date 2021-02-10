@@ -65,7 +65,7 @@ export const ContextProviderApp: FC = ({ children }) => {
   const repositoryIssuesGet: IContextApp['actions']['repositoryIssuesGet'] = useCallback(
     async (param) => {
       console.log({ param });
-      const issues = ApiRepository.issuesList(param);
+      const issues = await ApiRepository.issuesList(param);
       setSelectedRepositoryIssues(issues);
       return issues;
     },

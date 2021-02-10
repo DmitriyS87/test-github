@@ -11,6 +11,7 @@ import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 
 import { IApiUserRepository } from '../../api';
 import { FormTextField } from '../../ui';
+import { RepositoryIssue } from './components';
 import { UserRepositoriesList } from './components/UserRepositoriesList/UserRepositoriesList';
 import { useContextApp } from './context/app';
 
@@ -96,11 +97,12 @@ export const App: FC = () => {
           <Grid item xs={12}>
             <Formik initialValues={initialValue} onSubmit={onSubmit}>
               {({ handleSubmit, isSubmitting }) => (
-                <form onSubmit={handleSubmit}>
+                <form autoComplete="off" onSubmit={handleSubmit}>
                   <Grid container spacing={2}>
                     <Grid item>
                       <FormControl>
                         <FormTextField
+                          autoComplete="off"
                           name="user"
                           placeholder="enter user name"
                           ref={anchorRef}
@@ -149,9 +151,8 @@ export const App: FC = () => {
           </Grid>
           <Grid item xs={12}>
             {selectedRepositoryIssues &&
-              // @ts-ignore
               selectedRepositoryIssues.map((issue) => (
-                <Box key={issue.number}>{issue.number}</Box>
+                <RepositoryIssue key={issue.id} issue={issue} />
               ))}
           </Grid>
         </Grid>
