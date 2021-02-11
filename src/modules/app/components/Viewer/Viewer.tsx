@@ -1,5 +1,5 @@
 import { Issue, Main, PageNotFound } from '@pages';
-import { Wrapper } from '@ui/styled';
+import { Wrapper } from '@ui';
 import React, { FC } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 

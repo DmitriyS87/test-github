@@ -1,7 +1,7 @@
 import { IApiRepositoryIssue } from '@api';
 import Grid from '@material-ui/core/Grid';
 import { User } from '@ui';
-import { Box } from '@ui/styled';
+import { Box } from '@ui';
 import React, { FC } from 'react';
 
 import {

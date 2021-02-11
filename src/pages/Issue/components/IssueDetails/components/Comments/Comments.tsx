@@ -1,7 +1,7 @@
 import { IApiRepositoryIssue } from '@api';
-import { useContextApp } from '@modules/app/context/app';
+import { useContextApp } from '@modules';
 import { User } from '@ui';
-import { Box } from '@ui/styled';
+import { Box } from '@ui';
 import { useSnackbar } from 'notistack';
 import React, { FC, useEffect } from 'react';
 

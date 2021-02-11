@@ -1,4 +1,4 @@
-import { Wrapper } from '@ui/styled';
+import { Wrapper } from '@ui';
 import React, { FC } from 'react';
 
 import { AppDescription, AppHeader, AppTitle } from './Header.style';

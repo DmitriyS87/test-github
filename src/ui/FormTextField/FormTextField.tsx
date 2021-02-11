@@ -1,18 +1,8 @@
 import TextField, { TextFieldProps } from '@material-ui/core/TextField';
 import { useField } from 'formik';
-import React, { FC, forwardRef, useMemo } from 'react';
+import React, { forwardRef, useMemo } from 'react';
 
-//
-// types
-//
-
-type IProps = { name: string } & TextFieldProps;
-
-//
-// view
-//
-
-export const FormTextField: FC<IProps> = forwardRef<HTMLInputElement, IProps>(
+export const FormTextField = forwardRef<HTMLInputElement, TextFieldProps>(
   ({ name, ...props }, ref) => {
     const [field, meta] = useField(name);
 

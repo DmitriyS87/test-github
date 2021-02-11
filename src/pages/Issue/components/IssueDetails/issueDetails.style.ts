@@ -1,4 +1,4 @@
-import { Box } from '@ui/styled';
+import { Box } from '@ui';
 import styled from 'styled-components';
 
 export const Issue = styled.div`

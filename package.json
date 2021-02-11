@@ -57,7 +57,8 @@
   "scripts": {
     "build": "webpack",
     "start": "webpack serve --open",
-    "lint": "eslint \"./src/**/*.{ts,tsx}\" --fix"
+    "lint": "eslint \"./src/**/*.{ts,tsx}\" --fix",
+    "type-check": "tsc --noEmit"
   },
   "resolutions": {
     "styled-components": "^5"
