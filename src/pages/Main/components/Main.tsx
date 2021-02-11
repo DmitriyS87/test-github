@@ -57,26 +57,18 @@ export const Main: FC = () => {
     (async () => {
       if (account && account.login && !accountRepositories) {
         try {
-          console.log('account.login', account.login);
           setIsRepositoriesSubmitting(true);
           await accountRepositoriesGet({ login: account.login });
           setIsRepositoriesSubmitting(false);
           handleRepositoryListOpen();
         } catch (err) {
-          resetAllpreviouseUserData();
           enqueueSnackbar(err && err.message ? err.message : err, {
             variant: 'error',
           });
         }
       }
     })();
-  }, [
-    account,
-    accountRepositories,
-    accountRepositoriesGet,
-    enqueueSnackbar,
-    resetAllpreviouseUserData,
-  ]);
+  }, [account, accountRepositories, accountRepositoriesGet, enqueueSnackbar]);
 
   const initialValue = {
     repo: '',
@@ -91,7 +83,7 @@ export const Main: FC = () => {
             'You should enter a user name orlogin to get user data!',
           );
         await accountDataGet({ name: user });
-        await resetAllpreviouseUserData();
+        resetAllpreviouseUserData();
       } catch (err) {
         enqueueSnackbar(err && err.message ? err.message : err, {
           variant: 'error',
@@ -117,27 +109,37 @@ export const Main: FC = () => {
     setRepositoryListOpen(true);
   };
 
-  const handleSelectRepository = async (repo: IApiUserRepository) => {
-    setSelectedRepository(repo);
-    try {
-      if (!account.login && !repo.name) {
-        throw new Error(
-          'The first you should load user repositories to select one',
-        );
+  const handleSelectRepository = useCallback(
+    async (repo: IApiUserRepository) => {
+      setSelectedRepository(repo);
+      try {
+        if (!account.login && !repo.name) {
+          throw new Error(
+            'The first you should load user repositories to select one',
+          );
+        }
+        setIsIssuesSubmitting(true);
+        clearRepositoryIssueCommentsData();
+        clearRepositoryIssues();
+        await repositoryIssuesGet({ owner: account.login, repo: repo.name });
+        setIsIssuesSubmitting(false);
+        handleRepositoryListClose();
+      } catch (err) {
+        enqueueSnackbar(err && err.message ? err.message : err, {
+          variant: 'error',
+        });
+        setIsIssuesSubmitting(false);
       }
-      setIsIssuesSubmitting(true);
-      clearRepositoryIssueCommentsData();
-      clearRepositoryIssues();
-      await repositoryIssuesGet({ owner: account.login, repo: repo.name });
-      setIsIssuesSubmitting(false);
-      handleRepositoryListClose();
-    } catch (err) {
-      enqueueSnackbar(err && err.message ? err.message : err, {
-        variant: 'error',
-      });
-      setIsIssuesSubmitting(false);
-    }
-  };
+    },
+    [
+      account,
+      clearRepositoryIssueCommentsData,
+      clearRepositoryIssues,
+      enqueueSnackbar,
+      repositoryIssuesGet,
+      setSelectedRepository,
+    ],
+  );
 
   return (
     <Box>

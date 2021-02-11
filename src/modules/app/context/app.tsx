@@ -166,7 +166,6 @@ export const ContextProviderApp: FC = ({ children }) => {
     clearRepositoryIssueCommentsData();
     clearRepositoryIssues();
     clearSelectedRepositoryData();
-    setAccount(null);
   }, [
     clearRepositoryIssueCommentsData,
     clearRepositoryIssues,
