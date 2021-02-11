@@ -180,7 +180,7 @@ export class ApiRepository {
     });
 
   /**
-   * Used to get repository issues by owner and repo
+   * Used to get repository issues list by owner and repo
    */
 
   public static issuesList = async ({
@@ -215,7 +215,7 @@ export class ApiRepository {
     });
 
   /**
-   * Used to get repository issue Comments by owner, repo and issue number
+   * Used to get repository issue comments list by owner, repo and issue number
    */
 
   public static issueCommentsList = async ({

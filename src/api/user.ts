@@ -49,8 +49,9 @@ export class ApiUser {
       endpoint: `${BASE_API_URL}/users`,
       method: 'GET',
     });
+
   /**
-   * Used to get account repositories data by name
+   * Used to get account repositories list by name
    */
 
   public static repositoriesList = async ({
@@ -64,7 +65,7 @@ export class ApiUser {
     });
 
   /**
-   * Used to get account repository data by name or login
+   * Used to get account data by name or login
    */
 
   public static retrieve = async ({
